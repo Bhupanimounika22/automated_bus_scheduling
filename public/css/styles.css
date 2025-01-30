@@ -1,0 +1,104 @@
+body {
+  background-color: #f4f4f9;
+}
+
+.sidebar {
+  background-color: #343a40;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  padding-top: 40px;
+  z-index: 100;
+}
+
+.sidebar h3 {
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sidebar .list-group-item {
+  background-color: #343a40;
+  color: #fff;
+  border: none;
+}
+
+.sidebar .list-group-item:hover {
+  background-color: #495057;
+}
+
+.sidebar a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  color: #d1d1d1;
+}
+
+.main-content {
+  margin-left: 260px;
+  padding: 20px;
+}
+
+#map {
+  height: 400px;
+  width: 100%;
+  background-color: #eaeaea;
+  border: 1px solid #ccc;
+}
+
+.navbar {
+  background-color: #343a40;
+  padding: 10px;
+}
+
+.navbar .navbar-brand {
+  color: #fff;
+}
+
+.sidebar-toggle {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: absolute;
+    top: 0;
+    left: -250px;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  .sidebar-toggle {
+    display: block;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 999;
+  }
+
+  .navbar {
+    padding: 15px;
+  }
+}
+.card {
+  border-radius: 10px;
+  text-align: center;
+}
+.card h5 {
+  font-size: 1.5rem;
+}
+.card p {
+  font-size: 1.2rem;
+}

@@ -1,0 +1,156 @@
+body {
+  background-color: #f8f9fa;
+}
+
+.sidebar {
+  background-color: #343a40;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  padding-top: 40px;
+  z-index: 100;
+  border-right: 2px solid #495057;
+}
+
+.sidebar h3 {
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.sidebar .list-group-item {
+  background-color: #343a40;
+  color: #fff;
+  border: none;
+  font-size: 1.1rem;
+}
+
+.sidebar .list-group-item:hover {
+  background-color: #495057;
+  cursor: pointer;
+}
+
+.sidebar a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  color: #d1d1d1;
+}
+
+.main-content {
+  margin-left: 270px;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  min-height: 100vh;
+}
+
+.navbar {
+  background-color: #343a40;
+  padding: 15px;
+}
+
+.navbar .navbar-brand {
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.sidebar-toggle {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: absolute;
+    top: 0;
+    left: -250px;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .sidebar-toggle {
+    display: block;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 999;
+  }
+
+  .navbar {
+    padding: 15px;
+  }
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: left;
+}
+
+table th {
+  background-color: #343a40;
+  color: #fff;
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table td button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+table td button:hover {
+  background-color: #0056b3;
+}
+
+.btn-assign {
+  background-color: #28a745;
+  color: white;
+  font-size: 1.1rem;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-assign:hover {
+  background-color: #218838;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+  font-size: 1rem;
+  padding: 6px 12px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="/css/route.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid">
+          <button class="btn btn-dark sidebar-toggle" onclick="toggleSidebar()">☰</button>
+          <span class="navbar-brand ms-auto">Route Management</span>
+          <h3><a href="/login" style="text-decoration: none; font-size:16pt; color:white;">Log out</a></h3> <br>
+
+      </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+      <h3><a href="/dashboard">Admin Dashboard</a></h3> <br>
+      <ul class="list-group">
+          <li class="list-group-item"><a href="/dashboard/routes">Route Management</a></li> <br>
+          <li class="list-group-item"><a href="/dashboard/schedule">Schedule Management</a></li> <br>
+          <li class="list-group-item"><a href="/dashboard/crew">Crew Management</a></li> <br>
+          <li class="list-group-item"><a href="/dashboard/real-time">Real-time Monitoring</a></li> <br>
+          <li class="list-group-item"><a href="/dashboard/analytics">Analytics</a></li> <br>
+          <li class="list-group-item"><a href="/dashboard/settings">Settings</a></li>
+      </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+      <div id="map" class="mb-4"></div>
+
+      <div class="d-flex justify-content-between mb-3">
+          <button class="btn btn-primary" id="newRouteBtn" data-bs-toggle="modal" data-bs-target="#routeModal">Add New Route</button>
+          <button class="btn btn-secondary" type="button" id="editRouteBtn">Edit Selected Route</button>
+          <button class="btn btn-danger" type="button" id="deleteRouteBtn">Delete Selected Routes</button>
+      </div>
+
+      <table class="table">
+          <thead>
+              <tr>
+                  <th><input type="checkbox" id="selectAllRoutes"></th>
+                  <th>Number</th>
+                  <th>Start Point</th>
+                  <th>End Point</th>
+                  <th>Status</th>
+                  <th>Active Buses</th>
+              </tr>
+          </thead>
+          <tbody id="routesList"></tbody>
+      </table>
+  </div>
+  <div class="modal fade" id="routeModal" tabindex="-1" aria-labelledby="routeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="routeModalLabel">Add/Edit Route</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="routeForm">
+            <div class="mb-3">
+              <label for="routeNumber" class="form-label">Route Number</label>
+              <input type="text" class="form-control" id="routeNumber" required>
+            </div>
+            <div class="mb-3">
+              <label for="startPoint" class="form-label">Start Point</label>
+              <input type="text" class="form-control" id="startPoint" required>
+            </div>
+            <div class="mb-3">
+              <label for="endPoint" class="form-label">End Point</label>
+              <input type="text" class="form-control" id="endPoint" required>
+            </div>
+            <div class="mb-3">
+              <label for="activeBuses" class="form-label">Active Buses</label>
+              <input type="number" class="form-control" id="activeBuses" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="saveRouteBtn">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/route-management.js">
+       
+  </script>
+</body>
+
+</html>
+
