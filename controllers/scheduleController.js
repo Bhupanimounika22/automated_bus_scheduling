@@ -52,8 +52,8 @@ const sendEmail = async (member, shift, bus, formattedStartTime, formattedEndTim
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'bhupanimounika123@gmail.com',  
-      pass: 'ampbqajsbjosxqxk'    
+      user: 'Enter your email',  
+      pass: 'Enter your app password'    
     }
   });
 
