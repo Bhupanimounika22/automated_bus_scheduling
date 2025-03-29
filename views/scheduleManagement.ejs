@@ -3,123 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Route Management</title>
+    <title>Schedule Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="/css/route.css">
-    
 </head>
 <body>
-  <!-- Navbar -->
   <nav class="navbar navbar-dark bg-dark">
       <div class="container-fluid">
           <button class="btn btn-dark sidebar-toggle" onclick="toggleSidebar()">☰</button>
           <span class="navbar-brand ms-auto">Schedule Management</span>
-          <h3><a href="/login" style="text-decoration: none; font-size:16pt; color:white;">Log out</a></h3> <br>
-
+          <h3><a href="/login" style="text-decoration: none; font-size:16pt; color:white;">Log out</a></h3>
       </div>
   </nav>
 
-  <!-- Sidebar -->
   <div class="sidebar">
-      <h3><a href="/dashboard">Admin Dashboard</a></h3> <br>
+      <h3><a href="/dashboard">Admin Dashboard</a></h3><br>
       <ul class="list-group">
-          <li class="list-group-item"><a href="/dashboard/routes">Route Management</a></li> <br>
-          <li class="list-group-item"><a href="/dashboard/schedule">Schedule Management</a></li> <br>
-          <li class="list-group-item"><a href="/dashboard/crew">Crew Management</a></li> <br>
-          <li class="list-group-item"><a href="/dashboard/real-time">Real-time Monitoring</a></li> <br>
-          <li class="list-group-item"><a href="/dashboard/analytics">Analytics</a></li> <br>
+          <li class="list-group-item"><a href="/dashboard/routes">Route Management</a></li><br>
+          <li class="list-group-item"><a href="/dashboard/schedule">Schedule Management</a></li><br>
+          <li class="list-group-item"><a href="/dashboard/crew">Crew Management</a></li><br>
+          <li class="list-group-item"><a href="/dashboard/real-time">Real-time Monitoring</a></li><br>
+          <li class="list-group-item"><a href="/dashboard/analytics">Analytics</a></li><br>
           <li class="list-group-item"><a href="/dashboard/settings">Settings</a></li>
       </ul>
   </div>
 
-      <!-- Main Content -->
-      <div class="col-md-9 main-content">
-        <h1>Schedule Management</h1>
-        <h2>Schedule List</h2>
+  <div class="col-md-9 main-content">
+    <h1>Schedule Management</h1>
+    <h2>Schedule List</h2>
 
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Crew</th>
-              <th>Bus</th>
-              <th>Shift</th>
-              <th>Assigned Date</th>
-              <th>Start Time</th>
-              <th>End Time</th>
-              <th>Actions</th>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Crew</th>
+          <th>Bus</th>
+          <th>Shift</th>
+          <th>Assigned Date</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (schedules && schedules.length > 0) { %>
+          <% schedules.forEach(schedule => { %>
+            <tr id="schedule-<%= schedule.id %>">
+              <td><%= schedule.crew %></td>
+              <td><%= schedule.bus %></td>
+              <td><%= schedule.shift %></td>
+              <td><%= schedule.date %></td>
+              <td><%= schedule.startTime %></td>
+              <td><%= schedule.endTime %></td>
+              <td>
+                <form action="/dashboard/schedule/edit/<%= schedule.id %>" method="POST">
+                  <select name="shift" class="form-select">
+                    <option value="Shift 1 (6 AM - 2 PM)" <%= schedule.shift === 'Shift 1 (6 AM - 2 PM)' ? 'selected' : '' %>>Shift 1 (6 AM - 2 PM)</option>
+                    <option value="Shift 2 (2 PM - 10 PM)" <%= schedule.shift === 'Shift 2 (2 PM - 10 PM)' ? 'selected' : '' %>>Shift 2 (2 PM - 10 PM)</option>
+                    <option value="Shift 3 (10 PM - 6 AM)" <%= schedule.shift === 'Shift 3 (10 PM - 6 AM)' ? 'selected' : '' %>>Shift 3 (10 PM - 6 AM)</option>
+                  </select>
+                  <button type="submit" class="btn btn-primary mt-2">Edit</button>
+                </form>
+                <button class="btn btn-danger mt-2" onclick="deleteSchedule('<%= schedule.id %>')">Delete</button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            <% schedules.forEach(schedule => { %>
-              <tr id="schedule-<%= schedule.id %>">
-                <td><%= schedule.crew %></td>
-                <td><%= schedule.bus %></td>
-                <td><%= schedule.shift %></td>
-                <td><%= schedule.date %></td>
-                <td><%= schedule.startTime %></td>
-                <td><%= schedule.endTime %></td>
-                <td>
-                  <form action="/dashboard/schedule/edit/<%= schedule.id %>" method="POST">
-                    <select name="shift" class="form-select">
-                      <option value="Morning" <%= schedule.shift === 'Morning' ? 'selected' : '' %>>Morning</option>
-                      <option value="Afternoon" <%= schedule.shift === 'Afternoon' ? 'selected' : '' %>>Afternoon</option>
-                      <option value="Evening" <%= schedule.shift === 'Evening' ? 'selected' : '' %>>Evening</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary mt-2">Edit</button>
-                  </form>
-                  <button class="btn btn-danger mt-2" onclick="deleteSchedule('<%= schedule.id %>')">Delete</button>
-                </td>
-              </tr>
-            <% }) %>
-          </tbody>
-        </table>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="7">No schedules available.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
 
-        <button class="btn-assign" onclick="window.location.href='/dashboard/schedule/assign'">Auto Assign Schedules</button>
-      </div>
-    </div>
+    <button class="btn btn-primary btn-assign">Auto Assign Schedules</button>
   </div>
-  <div id="calendar"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     function toggleSidebar() {
       document.querySelector('.sidebar').classList.toggle('open');
     }
 
     function deleteSchedule(scheduleId) {
-      const row = document.getElementById('schedule-' + scheduleId);
-
       fetch(`/dashboard/schedule/delete/${scheduleId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
       })
-      .then(response => {
-        if (response.ok) {
-          row.remove();
-        } else {
+        .then(response => {
+          if (response.ok) {
+            document.getElementById(`schedule-${scheduleId}`).remove();
+          } else {
+            alert('Error deleting schedule');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
           alert('Error deleting schedule');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Error deleting schedule');
-      });
+        });
     }
-    // Frontend JavaScript to handle Auto Assign button click
-document.querySelector('.btn-assign').addEventListener('click', function () {
-    fetch('/dashboard/schedule/auto-assign', {
-        method: 'POST'
-    })
-    .then(response => response.text())
-    .then(message => {
-        alert(message);  // Display the success message or error message
-        window.location.reload();  // Reload the page to show the updated schedule
-    })
-    .catch(error => {
-        alert('Error: ' + error);
-    });
-});
 
+    document.querySelector('.btn-assign').addEventListener('click', () => {
+      fetch('/dashboard/schedule/auto-assign', {
+        method: 'POST',
+        credentials: 'include'
+      })
+        .then(response => {
+          if (!response.ok) throw new Error('Failed to assign schedules');
+          return response.text();
+        })
+        .then(message => {
+          alert(message);
+          window.location.reload();
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error: ' + error.message);
+        });
+    });
   </script>
 </body>
 </html>

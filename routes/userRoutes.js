@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router(); // Use router, not app directly
+const router = express.Router();
 const userController = require('../controllers/userController');
 
 // Render signup page
@@ -16,38 +16,30 @@ router.post('/login', userController.loginUser);
 
 // Middleware for checking if user is logged in
 const isAuthenticated = (req, res, next) => {
-  if (!req.session.user) { 
-    return res.redirect('/login'); 
+  if (!req.session.user) {
+    return res.redirect('/login');
   }
   next();
 };
- 
 
- 
-// Dashboard Route
-router.get('/dashboard', isAuthenticated, (req, res) => {
-  res.render('dashboard'); // Render dashboard.ejs
-});
- 
+// Dashboard Route (single definition)
+router.get('/dashboard', isAuthenticated, userController.getDashboardData);
+
+// Additional dashboard routes
 router.get('/dashboard/routes', isAuthenticated, (req, res) => {
-  res.render('routeManagement'); // Render realTimeMonitoring.ejs
+  res.render('routeManagement');
 });
 
- 
- 
-// Real-time Monitoring Page
 router.get('/dashboard/real-time', isAuthenticated, (req, res) => {
-  res.render('realTimeMonitoring'); // Render realTimeMonitoring.ejs
+  res.render('realTimeMonitoring');
 });
 
-// Analytics Page
 router.get('/dashboard/analytics', isAuthenticated, (req, res) => {
-  res.render('analytics'); // Render analytics.ejs
+  res.render('analytics');
 });
 
-// Settings Page
 router.get('/dashboard/settings', isAuthenticated, (req, res) => {
-  res.render('settings'); // Render settings.ejs
+  res.render('settings');
 });
 
 module.exports = router;

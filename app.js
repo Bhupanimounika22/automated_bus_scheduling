@@ -34,7 +34,7 @@ app.use(express.json());
 // Database connection
 connectDB();
 
-// Routes for directing to the crews
+// Routes
 app.use('/', userRoutes);
 app.use('/', crewRoutes);
 app.use('/', busRoutes);
