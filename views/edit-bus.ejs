@@ -18,7 +18,7 @@
   <!-- Main Content -->
   <div class="container mt-4">
     <h1>Edit Bus</h1>
-    <form id="editBusForm" method="POST" action="/dashboard/bus/edit/<%= bus._id %>">
+    <form id="editBusForm" method="POST">
       <div class="mb-3">
         <label for="busId" class="form-label">Bus ID</label>
         <input type="text" class="form-control" id="busId" name="busId" value="<%= bus.busId %>" required>
@@ -26,18 +26,59 @@
       <div class="mb-3">
         <label for="busType" class="form-label">Bus Type</label>
         <select class="form-select" id="busType" name="busType" required>
-          <option value="Express" <% if (bus.busType === 'Express') { %> selected <% } %> >Express</option>
-          <option value="Super Luxury" <% if (bus.busType === 'Super Luxury') { %> selected <% } %> >Super Luxury</option>
-          <option value="Ultra Deluxe" <% if (bus.busType === 'Ultra Deluxe') { %> selected <% } %> >Ultra Deluxe</option>
-          <option value="Indra" <% if (bus.busType === 'Indra') { %> selected <% } %> >Indra</option>
-          <!-- Add other bus types here -->
+          <option value="Express" <%= bus.busType === 'Express' ? 'selected' : '' %>>Express</option>
+          <option value="Super Luxury" <%= bus.busType === 'Super Luxury' ? 'selected' : '' %>>Super Luxury</option>
+          <option value="Ultra Deluxe" <%= bus.busType === 'Ultra Deluxe' ? 'selected' : '' %>>Ultra Deluxe</option>
+          <option value="Indra" <%= bus.busType === 'Indra' ? 'selected' : '' %>>Indra</option>
+          <option value="Amaravathi" <%= bus.busType === 'Amaravathi' ? 'selected' : '' %>>Amaravathi</option>
+          <option value="Garuda" <%= bus.busType === 'Garuda' ? 'selected' : '' %>>Garuda</option>
+          <option value="Night Rider" <%= bus.busType === 'Night Rider' ? 'selected' : '' %>>Night Rider</option>
+          <option value="Vennela" <%= bus.busType === 'Vennela' ? 'selected' : '' %>>Vennela</option>
+          <option value="Garuda Plus" <%= bus.busType === 'Garuda Plus' ? 'selected' : '' %>>Garuda Plus</option>
+          <option value="Dolphin Cruise" <%= bus.busType === 'Dolphin Cruise' ? 'selected' : '' %>>Dolphin Cruise</option>
+          <option value="Metro Luxury A/C" <%= bus.busType === 'Metro Luxury A/C' ? 'selected' : '' %>>Metro Luxury A/C</option>
+          <option value="Pallevelugu" <%= bus.busType === 'Pallevelugu' ? 'selected' : '' %>>Pallevelugu</option>
+          <option value="City Ordinary" <%= bus.busType === 'City Ordinary' ? 'selected' : '' %>>City Ordinary</option>
         </select>
       </div>
       <button type="submit" class="btn btn-primary">Save Changes</button>
+      <button type="button" class="btn btn-secondary" onclick="window.location.href='/dashboard/crew'">Cancel</button>
     </form>
   </div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('editBusForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const busId = '<%= bus._id %>';
+      const updatedData = {
+        busId: document.getElementById('busId').value,
+        busType: document.getElementById('busType').value
+      };
+  
+      fetch(`/bus/${busId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.message) {
+            alert(data.message); // Show success message
+            window.location.href = '/dashboard/crew'; // Redirect back to crew list
+          } else {
+            alert('An error occurred while updating the bus details.');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while updating the bus details.');
+        });
+    });
+  </script>
 </body>
 </html>

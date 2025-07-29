@@ -9,6 +9,8 @@ const isAuthenticated = (req, res, next) => {
   };
  
 router.post('/register-bus', busController.registerBus);
+router.get('/dashboard/edit-bus/:id', isAuthenticated, busController.getEditBusPage);
+router.put('/bus/:id', isAuthenticated, busController.updateBus);
 router.delete('/bus/:id',isAuthenticated, busController.deleteBus);
  
  

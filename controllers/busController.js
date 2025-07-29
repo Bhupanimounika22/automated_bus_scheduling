@@ -17,6 +17,45 @@ exports.registerBus = async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 };
+exports.getEditBusPage = async (req, res) => {
+  try {
+    const busId = req.params.id;
+    const bus = await Bus.findById(busId);
+    
+    if (!bus) {
+      return res.status(404).send('Bus not found');
+    }
+    
+    res.render('edit-bus', { bus });
+  } catch (error) {
+    console.error('Error fetching bus for edit:', error);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.updateBus = async (req, res) => {
+  try {
+    const busId = req.params.id;
+    const updatedData = req.body;
+
+    const updatedBus = await Bus.findByIdAndUpdate(busId, updatedData, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedBus) {
+      return res.status(404).send({ message: 'Bus not found' });
+    }
+
+    res.status(200).send({
+      message: 'Bus updated successfully!',
+      updatedBus: updatedBus,
+    });
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+};
+
 exports.deleteBus = async (req, res) => {
   try {
     const busId = req.params.id;

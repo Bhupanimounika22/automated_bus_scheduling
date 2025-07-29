@@ -12,12 +12,12 @@ const isAuthenticated = (req, res, next) => {
 };
 router.post('/register-crew', crewController.registerCrew);
 
-
-// Route for managing routes
-router.get('/dashboard/crew', isAuthenticated, crewController.getCrewList);  // Correct usage
+// Route for managing crew
+router.get('/dashboard/crew', isAuthenticated, crewController.getCrewList);
+router.get('/dashboard/edit-crew/:id', isAuthenticated, crewController.getEditCrewPage);
 router.delete('/crew/:id', isAuthenticated, crewController.deleteCrew);
 
- // Update crew details
+// Update crew details
 router.put('/crew/:crewId', isAuthenticated, crewController.updateCrew);
 
 module.exports = router;

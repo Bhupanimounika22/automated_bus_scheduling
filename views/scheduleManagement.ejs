@@ -36,6 +36,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th>Schedule ID</th>
           <th>Crew</th>
           <th>Bus</th>
           <th>Shift</th>
@@ -49,6 +50,7 @@
         <% if (schedules && schedules.length > 0) { %>
           <% schedules.forEach(schedule => { %>
             <tr id="schedule-<%= schedule.id %>">
+              <td><code><%= schedule.id %></code></td>
               <td><%= schedule.crew %></td>
               <td><%= schedule.bus %></td>
               <td><%= schedule.shift %></td>
@@ -70,13 +72,16 @@
           <% }) %>
         <% } else { %>
           <tr>
-            <td colspan="7">No schedules available.</td>
+            <td colspan="8">No schedules available.</td>
           </tr>
         <% } %>
       </tbody>
     </table>
 
     <button class="btn btn-primary btn-assign">Auto Assign Schedules</button>
+    <button class="btn btn-warning btn-reassign">Auto Reassign Declined</button>
+    <button class="btn btn-info btn-test-email">Test Email</button>
+    <a href="/dashboard/test-links" class="btn btn-secondary">Test Accept/Decline Links</a>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -115,6 +120,43 @@
         .then(message => {
           alert(message);
           window.location.reload();
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error: ' + error.message);
+        });
+    });
+
+    document.querySelector('.btn-reassign').addEventListener('click', () => {
+      fetch('/dashboard/schedule/auto-reassign', {
+        method: 'POST',
+        credentials: 'include'
+      })
+        .then(response => {
+          if (!response.ok) throw new Error('Failed to reassign schedules');
+          return response.text();
+        })
+        .then(message => {
+          alert(message);
+          window.location.reload();
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error: ' + error.message);
+        });
+    });
+
+    document.querySelector('.btn-test-email').addEventListener('click', () => {
+      fetch('/dashboard/test-email', {
+        method: 'GET',
+        credentials: 'include'
+      })
+        .then(response => {
+          if (!response.ok) throw new Error('Failed to send test email');
+          return response.text();
+        })
+        .then(message => {
+          alert(message);
         })
         .catch(error => {
           console.error('Error:', error);

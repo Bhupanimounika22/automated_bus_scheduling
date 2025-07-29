@@ -29,6 +29,22 @@ exports.getCrewList = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+exports.getEditCrewPage = async (req, res) => {
+  try {
+    const crewId = req.params.id;
+    const crew = await Crew.findById(crewId);
+    
+    if (!crew) {
+      return res.status(404).send('Crew member not found');
+    }
+    
+    res.render('edit-crew', { crew });
+  } catch (error) {
+    console.error('Error fetching crew for edit:', error);
+    res.status(500).send('Server Error');
+  }
+};
 exports.deleteCrew = async (req, res) => {
   try {
     const crewId = req.params.id;  // Directly access id

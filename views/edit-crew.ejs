@@ -18,32 +18,34 @@
                         <button type="button" class="btn-close" onclick="closeModal()" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <form id="editCrewForm" method="POST" action="/update-crew">
+                      <form id="editCrewForm" method="POST">
+                        <input type="hidden" id="crewId" value="<%= crew._id %>">
                         <div class="mb-3">
                                 <label for="editFullName" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="editFullName" required>
+                                <input type="text" class="form-control" id="editFullName" value="<%= crew.fullName %>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="editRole" class="form-label">Role</label>
                                 <select class="form-select" id="editRole" required>
-                                    <option value="Driver">Driver</option>
-                                    <option value="Conductor">Conductor</option>
-                                    <option value="Dispatcher">Dispatcher</option>
+                                    <option value="Driver" <%= crew.role === 'Driver' ? 'selected' : '' %>>Driver</option>
+                                    <option value="Conductor" <%= crew.role === 'Conductor' ? 'selected' : '' %>>Conductor</option>
+                                    <option value="Dispatcher" <%= crew.role === 'Dispatcher' ? 'selected' : '' %>>Dispatcher</option>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="editUniqueId" class="form-label">Unique ID</label>
-                                <input type="text" class="form-control" id="editUniqueId" required>
+                                <input type="text" class="form-control" id="editUniqueId" value="<%= crew.uniqueId %>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="editEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="editEmail" required>
+                                <input type="email" class="form-control" id="editEmail" value="<%= crew.email %>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="editPhoneNum" class="form-label">Phone Number</label>
-                                <input type="tel" class="form-control" id="editPhoneNum" required>
+                                <input type="tel" class="form-control" id="editPhoneNum" value="<%= crew.phoneNum %>" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
                         </form>
                     </div>
                 </div>
@@ -52,11 +54,18 @@
     </div>
 
     <script>
-      function updateCrew() {
-        const crewId = document.getElementById('editUniqueId').value; // Get crew ID
+      function closeModal() {
+        window.location.href = '/dashboard/crew';
+      }
+
+      document.getElementById('editCrewForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const crewId = document.getElementById('crewId').value;
         const updatedData = {
             fullName: document.getElementById('editFullName').value,
             role: document.getElementById('editRole').value,
+            uniqueId: document.getElementById('editUniqueId').value,
             email: document.getElementById('editEmail').value,
             phoneNum: document.getElementById('editPhoneNum').value,
         };
@@ -72,13 +81,16 @@
             .then(data => {
                 if (data.message) {
                     alert(data.message); // Show success message
+                    window.location.href = '/dashboard/crew'; // Redirect back to crew list
                 } else {
                     alert('An error occurred while updating the crew details.');
                 }
             })
-            .catch(error => console.error('Error:', error));
-    }
-    
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while updating the crew details.');
+            });
+      });
     </script>
 
     <!-- Bootstrap JS -->

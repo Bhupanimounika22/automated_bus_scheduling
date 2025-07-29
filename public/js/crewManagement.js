@@ -142,7 +142,11 @@ function toggleSidebar() {
   }
  
   function redirectToEditPage(crewId) {
-    window.location.href = `/dashboard/edit-crew?id=${crewId}`;
+    window.location.href = `/dashboard/edit-crew/${crewId}`;
+}
+
+function redirectToEditBusPage(busId) {
+    window.location.href = `/dashboard/edit-bus/${busId}`;
 }
 
  

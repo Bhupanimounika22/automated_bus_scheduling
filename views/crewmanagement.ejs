@@ -103,7 +103,7 @@
               <td><%= bus.busId %></td>
               <td><%= bus.busType %></td>
               <td>
-                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#busEditModal" >Edit</button>
+                <button class="btn btn-warning btn-sm" onclick="redirectToEditBusPage('<%= bus._id %>')">Edit</button>
                 <button class="btn btn-danger btn-sm" onclick="deleteBus('<%= bus._id %>')">Delete</button>
               </td>
             </tr>
